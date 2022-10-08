@@ -2,15 +2,17 @@
 
 namespace App\Controller\Admin;
 
-use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use App\Entity\Group;
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
-    #[Route('/admin', name: 'admin')]
+    #[Route('/admin', name: 'app_admin')]
     public function index(): Response
     {
         //return parent::index();
@@ -40,7 +42,10 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        yield MenuItem::linkToDashboard('Dashboard', 'fa-solid fa-wand-magic-sparkles fa-xl');
+        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user fa-xl', User::class);
+        yield MenuItem::linkToCrud('Groupes de gestion', 'fas fa-newspaper fa-xl', Group::class);
+        yield MenuItem::linkToRoute('Retour Page d\'Accueil','fa fa-home fa-xl','app_home');
+
     }
 }
