@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class CarouselCrudController extends AbstractCrudController
 {
@@ -22,10 +23,10 @@ class CarouselCrudController extends AbstractCrudController
         return [
             TextField::new('nom'),
             TextField::new('description'),
-            BooleanField::new('isPublished'),            
-            ImageField::new('imageName', 'imageFile')
-            ->setBasePath('uploads/carousels')
-            ->setUploadDir('public/uploads/carousels'),  
+            BooleanField::new('isPublished'),
+            ImageField::new('imageName')
+            ->setBasePath('uploads/carousels')->onlyOnIndex(),
+            TextField::new('imageFile')->setFormType(VichImageType::class)->hideOnIndex(),
             DateTimeField::new('createdAt')->onlyOnIndex()
             
         ];
