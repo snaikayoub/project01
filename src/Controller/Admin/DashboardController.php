@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Carousel;
 use App\Entity\Group;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,6 +46,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa-solid fa-wand-magic-sparkles fa-xl');
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user fa-xl', User::class);
         yield MenuItem::linkToCrud('Groupes de gestion', 'fas fa-newspaper fa-xl', Group::class);
+        yield MenuItem::linkToCrud('Gestion de Carousel', 'fas fa-image fa-xl', Carousel::class);
         yield MenuItem::linkToRoute('Retour Page d\'Accueil','fa fa-home fa-xl','app_home');
 
     }

@@ -1,68 +1,35 @@
-<nav class="navbar navbar-expand-lg bg-light rounded-2 py-2">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{{path('app_home')}}"><em>M-RH</em></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="{{ asset('../public/img/OCP.png') }}">MyPayroll</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-       
-              {% if is_granted("ROLE_ADMIN") %}
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{path('app_admin')}}">Administration</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Délégataire</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Utilisateur</a>
-              </li>
-              {% elseif is_granted("ROLE_DELEG")%}
-                <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Délégataire</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Utilisateur</a>
-              </li>
-              {% endif %}
-
-        
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      
+      <ul class="navbar-nav">
+        {% include "A-navbar.html.twig" %}
         <li class="nav-item">
-          <a class="nav-link" href="#">Astreinte</a>
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
-        <li class="dropdown">
-          <button class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="true">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Pricing</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Dropdown link
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <li><a class="dropdown-item" href="#">Action</a></li>
             <li><a class="dropdown-item" href="#">Another action</a></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
         </li>
-        <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
-        </li>
-      </ul>
-      <!--<form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>-->
-      
-      {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-     <!--{{ app.user.email }}-->
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
-            <li> <a class="nav-link" href="{{ path('app_logout') }}" >Déconnexion</a></li>
-            <li><a class="nav-link" href="" >{{ app.user.nom }} {{ app.user.prenom }}</a></li>
-        </ul>
-      {% else %}
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li><a class="nav-link" href="{{ path('app_login') }}" >Connexion</a></li>
-            <li><a class="nav-link" href="{{ path('app_register') }}" >S'enregistrer</a></li>
-          </ul>
-      {% endif %}
-      
 
+      </ul>
+      {% include "B-navbar.html.twig" %}
     </div>
   </div>
 </nav>
