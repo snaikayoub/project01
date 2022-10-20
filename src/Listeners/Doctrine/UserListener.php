@@ -1,5 +1,5 @@
 <?php
-namespace App\Doctrine;
+namespace App\Listeners\Doctrine;
 
 use Doctrine\ORM\Mapping as	 Orm;	
 use	Doctrine\ORM\Event\LifecycleEventArgs;	
@@ -23,16 +23,23 @@ class UserListener{
   	public function prePersist(User	$user, LifecycleEventArgs $args) {	
     	$password = $user->getPassword();	
     	$password = $this->encodePassword($user	,$password);	
-    	$user->setPassword($password);	
+    	$user->setPassword($password);
+		
   	}	
 
   	/** @Orm\PreUpdate */	
-  	public function preUpdate(User $user , PreUpdateEventArgs $args	){	
+  	public function preUpdate(User $user , PreUpdateEventArgs $args	){
+		
+		
     	if(	$args->hasChangedField('password')){	
       	$password = $args->getNewValue('password')	;	
       	$password = $this->encodePassword($user	,$password);	
       	$user->setPassword($password);	
-    	}	
+    	}
+		if(	$args->hasChangedField('photo')){	
+			$photo = $args->getNewValue('photo');
+		  }
+
   	}	
 
   	private function encodePassword	(User $user	,string $password){	

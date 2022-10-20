@@ -27,7 +27,7 @@ class CarouselCrudController extends AbstractCrudController
             ImageField::new('imageName')
             ->setBasePath('uploads/carousels')->onlyOnIndex(),
             TextField::new('imageFile')->setFormType(VichImageType::class)->hideOnIndex(),
-            DateTimeField::new('createdAt')->onlyOnIndex()
+            DateTimeField::new('updatedAt')->onlyOnIndex()
             
         ];
     }

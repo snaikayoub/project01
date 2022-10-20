@@ -1,4 +1,0 @@
-#App\Entity\Carousel:
- #   file:
-  #      mapping: 'carousel_images'
-   #     filename_property: imageName

@@ -36,7 +36,7 @@ class Carousel
 
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -113,15 +113,15 @@ class Carousel
     }
 
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->createdAt;
+        return $this->updatedAt;
     }
 
     #[ORM\PrePersist]
-    public function setCreatedAt()
+    public function setUpdatedAt()
     {
-        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
 
         return $this;
     }
