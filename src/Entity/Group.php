@@ -25,9 +25,13 @@ class Group
     #[ORM\OneToMany(mappedBy: 'groupe', targetEntity: User::class)]
     private Collection $users;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'groupesGeres')]
+    private Collection $gestionnaires;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->gestionnaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,6 +97,33 @@ class Group
     public function __toString()
     {
        return $this->nom;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getGestionnaires(): Collection
+    {
+        return $this->gestionnaires;
+    }
+
+    public function addGestionnaire(User $gestionnaire): self
+    {
+        if (!$this->gestionnaires->contains($gestionnaire)) {
+            $this->gestionnaires->add($gestionnaire);
+            $gestionnaire->addGroupesGere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGestionnaire(User $gestionnaire): self
+    {
+        if ($this->gestionnaires->removeElement($gestionnaire)) {
+            $gestionnaire->removeGroupesGere($this);
+        }
+
+        return $this;
     }
 
 }

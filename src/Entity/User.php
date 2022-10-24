@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Serializable;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
@@ -57,6 +59,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     // NOTE: This is not a mapped field of entity metadata, just a simple property.
     #[Vich\UploadableField(mapping: 'user_images', fileNameProperty: 'photo')]
     private ?File $photoFile = null;
+
+    #[ORM\ManyToMany(targetEntity: Group::class, inversedBy: 'gestionnaires')]
+    private Collection $groupesGeres;
+
+    public function __construct()
+    {
+        $this->groupesGeres = new ArrayCollection();
+    }
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -253,5 +263,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
             // see section on salt below
             // $this->salt
         ) = unserialize($serialized, ['allowed_classes' => false]);
-    }    
+    }
+
+    /**
+     * @return Collection<int, Group>
+     */
+    public function getGroupesGeres(): Collection
+    {
+        return $this->groupesGeres;
+    }
+
+    public function addGroupesGere(Group $groupesGere): self
+    {
+        if (!$this->groupesGeres->contains($groupesGere)) {
+            $this->groupesGeres->add($groupesGere);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupesGere(Group $groupesGere): self
+    {
+        $this->groupesGeres->removeElement($groupesGere);
+
+        return $this;
+    }
+    
+    public function __toString()
+    {
+        return $this->getNom();
+    }
 }

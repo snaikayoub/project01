@@ -124,6 +124,13 @@ class UserCrudController extends AbstractCrudController
                     //->andWhere('...')
                     ->orderBy('e.nom', 'ASC');
             }),
+
+            AssociationField::new('groupesGeres')->setFormTypeOption('query_builder', function (GroupRepository $entityRepository) {
+                return $entityRepository->createQueryBuilder('e')
+                    //->andWhere('...')
+                    ->orderBy('e.nom', 'ASC');
+            }),
+
             DateTimeField::new('updatedAt')->onlyOnIndex(),
             ChoiceField::new('roles')
                 ->allowMultipleChoices()
