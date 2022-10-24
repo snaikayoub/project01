@@ -17,17 +17,25 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    #[Route('/edit/{id}', name: 'app_edit')]
+    public function profile(Request $request, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager,User $user=null): Response
     {
-        $user = new User();
+        if ($user==null) {
+            # code...
+            $user = new User();
+        }
+        
+        
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+            dump($form->get('plainPassword')->getData());
+         
             $user->setPassword(
                     $form->get('plainPassword')->getData()
             );
+            
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email

@@ -6,3 +6,14 @@ body{
     background-image: url("../../public/images/background.jpg")!important; 
 
 };
+
+.login {
+    background-image: url("../../public/images/bg-login.jpg")!important;
+    background-size: cover; 
+    };
+.logout {
+    background-image: url("../../public/images/register.jpg")!important;
+    background-size: cover; 
+    font-size: larger;
+    font-weight:bold
+    };

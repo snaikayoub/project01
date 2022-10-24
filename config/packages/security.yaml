@@ -44,7 +44,7 @@ security:
         ROLE_DELEG: ROLE_USER
         ROLE_ADMIN: ROLE_DELEG
 
-    access_denied_url: /login
+    access_denied_url: /
 
 when@test:
     security:

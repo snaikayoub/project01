@@ -1,38 +1,20 @@
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>{% block title %}Log in!!{% endblock %}</title>
-            <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+{% extends 'base.html.twig' %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <section class="ftco-section py-5 my-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6 text-center mb-5">
-                    <h2 class="heading-section"></h2>
-                </div>
-            </div>
+{% block title %}Page de connexion{% endblock %}
 
-			<div class="row justify-content-center">
-				<div class="col-md-6 col-lg-4">
-					<div class="login-wrap p-0">
+{% block body %}
 
-                        <form method="post">
+			<div class="container justify-content-center my-3 py-3 rounded-3 login">
+					<div class="login-wrap rounded-3 ">
+
+                        <form method="post" class="col px-5 m-5 rounded-3 align-self-center justify-content-center">
                             {% if error %}
                                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                             {% endif %}
 
                             {% if app.user %}
                                 <div class="mb-3">
-                                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                                    You are logged in as {{ app.user.email }}, <a href="{{ path('app_logout') }}">Logout</a>
                                 </div>
                             {% endif %}
 
@@ -72,8 +54,5 @@
 
                         
 		            </div>
-			    </div>
             </div>
-        </div>
-    </section>
-</html>
+{% endblock %}

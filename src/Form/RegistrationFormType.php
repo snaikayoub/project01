@@ -5,14 +5,16 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -22,23 +24,12 @@ class RegistrationFormType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('matricule')
-            ->add('email')
-            /*->add('roles',ChoiceType::class, [
-                'required' => true,
-                'label'    => 'User Type',
-                'choices' => [
-                    'USER' => 'ROLE_USER',
-                    'DELEG' => 'ROLE_DELEG',
-                    'ADMIN' => 'ROLE_ADMIN',
-                            ] ,
-                'expanded'   => false,
-            ])*/
-            
+            ->add('email')            
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Vous devez accepter les termes.',
                     ]),
                 ],
             ])
@@ -46,6 +37,7 @@ class RegistrationFormType extends AbstractType
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
+                'required' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
@@ -59,29 +51,19 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-        ;
-        /*dd($builder->get('roles'));*/
-        $builder->get('roles')
-        
-        ->addModelTransformer(new CallbackTransformer(
-            function ($rolesAsArray) {
-                // transform the array to a string
-                
-                return implode(',', $rolesAsArray);
-           
-            },
-            function ($rolesAsString) {
-                // transform the string back to an array
-                return explode(',', $rolesAsString);
-            }
-        ))
-    ;
-    }
+            ->add('photoFile',VichImageType::class, [
+                'label' => 'Ajoutez une photo de profile',
+                'required' => false,
+                'allow_delete' => true,
+                'delete_label' => 'Delete image ?'
+            ])
+            ->add('submit',SubmitType::class);
+        }
 
     public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => User::class,
-        ]);
-    }
+        {
+            $resolver->setDefaults([
+                'data_class' => User::class,
+            ]);
+        }
 }

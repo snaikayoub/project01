@@ -253,5 +253,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
             // see section on salt below
             // $this->salt
         ) = unserialize($serialized, ['allowed_classes' => false]);
-    }
+    }    
 }

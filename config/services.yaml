@@ -31,3 +31,4 @@ services:
             - { name: doctrine.orm.entity_listener }
             # Or, optionally, you can give the entity manager name as below
             #- { name: doctrine.orm.entity_listener, entity_manager: custom }
+    
