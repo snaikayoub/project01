@@ -291,6 +291,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     
     public function __toString()
     {
-        return $this->getNom();
+        return $this->getEmail();
     }
 }

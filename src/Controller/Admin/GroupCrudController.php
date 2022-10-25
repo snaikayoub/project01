@@ -6,6 +6,7 @@ use App\Entity\Group;
 use App\Repository\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -23,7 +24,7 @@ class GroupCrudController extends AbstractCrudController
         return [
             IdField::new('id'),
             TextField::new('nom'),
-            TextEditorField::new('designation'),
+            TextareaField::new('designation'),
             AssociationField::new('gestionnaires')->setFormTypeOption('query_builder', function (UserRepository $entityRepository) {
                 return $entityRepository->createQueryBuilder('e')
                     //->andWhere('...')

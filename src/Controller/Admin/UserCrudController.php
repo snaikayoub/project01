@@ -69,48 +69,6 @@ class UserCrudController extends AbstractCrudController
         ;
     }
 
-    public function export(Request $request)
-    {
-        $context = $request->attributes->get(EA::CONTEXT_REQUEST_ATTRIBUTE);
-        $fields = FieldCollection::new($this->configureFields(Crud::PAGE_INDEX));
-        $filters = $this->container->get(FilterFactory::class)->create($context->getCrud()->getFiltersConfig(), $fields, $context->getEntity());
-        $users = $this->createIndexQueryBuilder($context->getSearch(), $context->getEntity(), $fields, $filters)
-            ->getQuery()
-            ->getResult();
-        $data = [];
-        /**
-         * @var $record User
-         */
-        foreach ($users as $record) {
-            $roles ="";
-            foreach($record->getRoles() as $role)
-                {
-                    if(!$roles){
-                        $roles = $role;
-                    }else{
-                        $roles = $roles . '-' . $role;
-                    }
-                    
-                };
-
-            $data[] = [
-                'matricule' => $record->getMatricule(),
-                'email' => $record->getEmail(),
-                'Nom' => $record->getNom(),
-                'prenom' => $record->getPrenom(),
-                'Roles' => $roles,
-                'groupe' => $record->getGroupe(),
-                'updatedAt'=>$record->getUpdatedAt()->format('d-m-Y H:i:s')
-            ];
-        }
-
-        $filename = 'export_users_'.date_create()->format('d-m-y').'.csv';
-
-        return $this->csvService->export($data,$filename);
-
-     
-    }
-
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -118,7 +76,7 @@ class UserCrudController extends AbstractCrudController
             TextField::new('nom'),
             TextField::new('prenom'),
             EmailField::new('email'),
-            TextField::new('password')->setFormType(PasswordType::class)->hideOnIndex()->hideWhenUpdating(),
+            TextField::new('password')->setFormType(PasswordType::class)->hideOnIndex(),
             AssociationField::new('groupe')->setFormTypeOption('query_builder', function (GroupRepository $entityRepository) {
                 return $entityRepository->createQueryBuilder('e')
                     //->andWhere('...')
@@ -180,6 +138,59 @@ class UserCrudController extends AbstractCrudController
                 ->setPaginatorUseOutputWalkers(true)
                 ->setPaginatorFetchJoinCollection(true)
             ;
+        }
+        public function export(Request $request)
+        {
+            $context = $request->attributes->get(EA::CONTEXT_REQUEST_ATTRIBUTE);
+            $fields = FieldCollection::new($this->configureFields(Crud::PAGE_INDEX));
+            $filters = $this->container->get(FilterFactory::class)->create($context->getCrud()->getFiltersConfig(), $fields, $context->getEntity());
+            $users = $this->createIndexQueryBuilder($context->getSearch(), $context->getEntity(), $fields, $filters)
+                ->getQuery()
+                ->getResult();
+            $data = [];
+            /**
+             * @var $record User
+             */
+            foreach ($users as $record) {
+                $roles ="";
+                $groupes="";
+                foreach($record->getRoles() as $role)
+                    {
+                        if(!$roles){
+                            $roles = $role;
+                        }else{
+                            $roles = $roles . '-' . $role;
+                        }
+                        
+                    };
+
+                foreach($record->getGroupesGeres() as $groupe)
+                    {
+                        if(!$groupes){
+                            $groupes = $groupe;
+                        }else{
+                            $groupes = $groupes . '-' . $groupe;
+                        }
+                        
+                    };
+
+                $data[] = [
+                    'matricule' => $record->getMatricule(),
+                    'email' => $record->getEmail(),
+                    'Nom' => $record->getNom(),
+                    'prenom' => $record->getPrenom(),
+                    'Roles' => $roles,
+                    'groupe' => $record->getGroupe(),
+                    'groupesGeres'=>$groupes,
+                    'updatedAt'=>$record->getUpdatedAt()->format('d-m-Y H:i:s')
+                ];
+            }
+
+            $filename = 'export_users_'.date_create()->format('d-m-y').'.csv';
+
+            return $this->csvService->export($data,$filename);
+
+        
         }
     
 }
