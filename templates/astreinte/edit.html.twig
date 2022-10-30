@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Astreinte{% endblock %}
+
+{% block body %}
+    <h1>Edit Astreinte</h1>
+
+    {{ include('astreinte/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_astreinte_index') }}">back to list</a>
+
+    {{ include('astreinte/_delete_form.html.twig') }}
+{% endblock %}

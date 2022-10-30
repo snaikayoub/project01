@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Astreinte index{% endblock %}
+
+{% block body %}
+    <h1>Astreinte index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Matricule</th>
+                <th>Groupe de Gestion</th>
+                <th>RelatedMonth</th>
+                <th>DateDebut</th>
+                <th>DateFin</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for astreinte in astreintes %}
+            <tr>
+                <td>{{ astreinte.id }}</td>
+                <td>{{ astreinte.matricule.matricule }}</td>
+                <td>{{ astreinte.matricule.groupe }}</td>
+                <td>{{ astreinte.relatedMonth }}</td>
+                <td>{{ astreinte.dateDebut ? astreinte.dateDebut|date('Y-m-d') : '' }}</td>
+                <td>{{ astreinte.dateFin ? astreinte.dateFin|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_astreinte_show', {'id': astreinte.id}) }}">show</a>
+                    <a href="{{ path('app_astreinte_edit', {'id': astreinte.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_astreinte_new') }}">Create new</a>
+{% endblock %}

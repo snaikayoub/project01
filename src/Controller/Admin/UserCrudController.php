@@ -76,7 +76,7 @@ class UserCrudController extends AbstractCrudController
             TextField::new('nom'),
             TextField::new('prenom'),
             EmailField::new('email'),
-            TextField::new('password')->setFormType(PasswordType::class)->hideOnIndex(),
+            TextField::new('password')->setFormType(PasswordType::class)->onlyWhenCreating(),
             AssociationField::new('groupe')->setFormTypeOption('query_builder', function (GroupRepository $entityRepository) {
                 return $entityRepository->createQueryBuilder('e')
                     //->andWhere('...')

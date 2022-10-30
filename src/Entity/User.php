@@ -63,9 +63,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     #[ORM\ManyToMany(targetEntity: Group::class, inversedBy: 'gestionnaires')]
     private Collection $groupesGeres;
 
+    #[ORM\OneToMany(mappedBy: 'matricule', targetEntity: Astreinte::class)]
+    private Collection $astreintes;
+
+
     public function __construct()
     {
         $this->groupesGeres = new ArrayCollection();
+        $this->astreintes = new ArrayCollection();
+        $this->astreints = new ArrayCollection();
     }
 
     /**
@@ -289,8 +295,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
         return $this;
     }
     
-    public function __toString()
+    /*public function __toString()
     {
+        return $this->getMatricule();
         return $this->getEmail();
+        
+    }*/
+
+    /**
+     * @return Collection<int, Astreinte>
+     */
+    public function getAstreintes(): Collection
+    {
+        return $this->astreintes;
     }
+
+    public function addAstreinte(Astreinte $astreinte): self
+    {
+        if (!$this->astreintes->contains($astreinte)) {
+            $this->astreintes->add($astreinte);
+            $astreinte->setMatricule($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAstreinte(Astreinte $astreinte): self
+    {
+        if ($this->astreintes->removeElement($astreinte)) {
+            // set the owning side to null (unless already changed)
+            if ($astreinte->getMatricule() === $this) {
+                $astreinte->setMatricule(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
 }

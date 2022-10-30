@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Astreinte{% endblock %}
+
+{% block body %}
+    <h1>Astreinte</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ astreinte.id }}</td>
+            </tr>
+            <tr>
+                <th>RelatedMonth</th>
+                <td>{{ astreinte.relatedMonth }}</td>
+            </tr>
+            <tr>
+                <th>DateDebut</th>
+                <td>{{ astreinte.dateDebut ? astreinte.dateDebut|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateFin</th>
+                <td>{{ astreinte.dateFin ? astreinte.dateFin|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_astreinte_index') }}">back to list</a>
+
+    <a href="{{ path('app_astreinte_edit', {'id': astreinte.id}) }}">edit</a>
+
+    {{ include('astreinte/_delete_form.html.twig') }}
+{% endblock %}
